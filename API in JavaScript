@@ -1,0 +1,48 @@
+// Autenticação da API
+
+headers: {
+    'Authorization'; 'Bearer SEU_TOKEN_AQUI',
+    'Content-Type'; 'application/json'
+  }
+
+// ----------------------------------------------------------------------------------
+
+// Requisição GET
+
+fetch('https://api.exemplo.com/dados')  // URL da API
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Erro na requisição: ' + response.status);
+    }
+    return response.json();  // Parse do JSON
+  })
+  .then(data => {
+    console.log(data);  // Manipula os dados da resposta
+  })
+  .catch(error => {
+    console.error('Erro:', error);  // Tratamento de erros
+  });
+
+  // -------------------------------------------------------------------------------
+
+  // Requisição POST
+
+  fetch('https://api.exemplo.com/criar', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'  // Define o tipo de conteúdo
+    },
+    body: JSON.stringify({
+      nome: 'Seu Nome',
+      idade: 25
+    })
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Sucesso:', data);
+    })
+    .catch(error => {
+      console.error('Erro:', error);
+    });
+
+    //-------------------------------------------------------------------------------
