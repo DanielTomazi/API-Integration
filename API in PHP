@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 // Requisição GET com cURL
 // URL da API (substitua com a URL da sua API)
@@ -95,3 +96,102 @@ $data = json_decode($response->getBody(), true);
 print_r($data);
 ?>
 
+=======
+<?php
+// Requisição GET com cURL
+// URL da API (substitua com a URL da sua API)
+$apiUrl = 'https://api.exemplo.com/endpoint';
+
+// Inicializa a sessão cURL
+$ch = curl_init();
+
+// Configurações para a requisição GET
+curl_setopt($ch, CURLOPT_URL, $apiUrl);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Retorna o resultado como string
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Authorization: Bearer SEU_TOKEN_AQUI' // Se for necessária autenticação
+]);
+
+// Executa a requisição e armazena a resposta
+$response = curl_exec($ch);
+
+// Verifica se houve erro
+if(curl_errno($ch)) {
+    echo 'Erro cURL: ' . curl_error($ch);
+} else {
+    // Converte a resposta JSON em um array associativo
+    $data = json_decode($response, true);
+    // Exibe a resposta
+    print_r($data);
+}
+
+// Fecha a conexão cURL
+curl_close($ch);
+?>
+
+<?php
+//Requisição POST com cURL
+// URL da API (substitua com a URL da sua API)
+$apiUrl = 'https://api.exemplo.com/endpoint';
+
+// Dados que você deseja enviar para a API
+$postData = [
+    'param1' => 'valor1',
+    'param2' => 'valor2'
+];
+
+// Inicializa a sessão cURL
+$ch = curl_init();
+
+// Configurações para a requisição POST
+curl_setopt($ch, CURLOPT_URL, $apiUrl);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Retorna o resultado como string
+curl_setopt($ch, CURLOPT_POST, true); // Indica que é uma requisição POST
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData)); // Dados a serem enviados
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Authorization: Bearer SEU_TOKEN_AQUI', // Se for necessária autenticação
+    'Content-Type: application/x-www-form-urlencoded'
+]);
+
+// Executa a requisição e armazena a resposta
+$response = curl_exec($ch);
+
+// Verifica se houve erro
+if(curl_errno($ch)) {
+    echo 'Erro cURL: ' . curl_error($ch);
+} else {
+    // Converte a resposta JSON em um array associativo
+    $data = json_decode($response, true);
+    // Exibe a resposta
+    print_r($data);
+}
+
+// Fecha a conexão cURL
+// Trata resposta da API
+curl_close($ch);
+?>
+
+$response = '{"nome":"João", "idade":30}';
+$data = json_decode($response, true); // Converte para array associativo
+echo $data['nome']; // Saída: João
+
+
+<?php
+//Exemplo com o Guzzle
+//composer require guzzlehttp/guzzle
+require 'vendor/autoload.php';
+
+use GuzzleHttp\Client;
+
+$client = new Client();
+$response = $client->request('GET', 'https://api.exemplo.com/endpoint', [
+    'headers' => [
+        'Authorization' => 'Bearer SEU_TOKEN_AQUI'
+    ]
+]);
+
+$data = json_decode($response->getBody(), true);
+print_r($data);
+?>
+
+>>>>>>> 550f33be6f163a7015c675fb9b2520ac5cd44d5a
