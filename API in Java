@@ -1,0 +1,147 @@
+//Requisão GET com HttpURLConnection
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class ApiIntegration {
+    public static void main(String[] args) {
+        try {
+            // URL da API
+            String url = "https://api.exemplo.com/endpoint";
+            URL obj = new URL(url);
+
+            // Criação da conexão HTTP
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            // Definindo o método HTTP (GET)
+            con.setRequestMethod("GET");
+
+            // Cabeçalhos de requisição, se necessário (por exemplo, para autenticação)
+            con.setRequestProperty("Authorization", "Bearer SEU_TOKEN_AQUI");
+
+            // Recebe o código de resposta HTTP
+            int responseCode = con.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+
+            // Lê a resposta da API
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            // Exibe a resposta da API
+            System.out.println("Resposta da API: " + response.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+// Exemplo requisição GET com HttpClient
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpHeaders;
+
+public class ApiIntegration {
+    public static void main(String[] args) {
+        try {
+            // Criação do cliente HTTP
+            HttpClient client = HttpClient.newHttpClient();
+
+            // URL da API
+            String url = "https://api.exemplo.com/endpoint";
+
+            // Criação da requisição HTTP
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Authorization", "Bearer SEU_TOKEN_AQUI") // Cabeçalho de autenticação
+                    .build();
+
+            // Envia a requisição e obtém a resposta
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            // Exibe o código de status e a resposta
+            System.out.println("Response Code: " + response.statusCode());
+            System.out.println("Resposta da API: " + response.body());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+// Exemplo de Rquisição POST com HttpClient
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpHeaders;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.util.Map;
+
+public class ApiIntegration {
+    public static void main(String[] args) {
+        try {
+            // Criação do cliente HTTP
+            HttpClient client = HttpClient.newHttpClient();
+
+            // URL da API
+            String url = "https://api.exemplo.com/endpoint";
+
+            // Dados a serem enviados no corpo da requisição (como JSON ou x-www-form-urlencoded)
+            String json = "{\"param1\": \"valor1\", \"param2\": \"valor2\"}";
+
+            // Criação da requisição HTTP (POST)
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Authorization", "Bearer SEU_TOKEN_AQUI")
+                    .header("Content-Type", "application/json") // Tipo de conteúdo
+                    .POST(BodyPublishers.ofString(json)) // Envia o JSON como corpo da requisição
+                    .build();
+
+            // Envia a requisição e obtém a resposta
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            // Exibe o código de status e a resposta
+            System.out.println("Response Code: " + response.statusCode());
+            System.out.println("Resposta da API: " + response.body());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+// Exemplo de como tratar a resposta JSON
+import org.json.JSONObject;
+
+public class ApiIntegration {
+    public static void main(String[] args) {
+        try {
+            // Suponha que a resposta seja um JSON
+            String jsonResponse = "{\"nome\": \"João\", \"idade\": 30}";
+            
+            // Converte o JSON em um objeto JSONObject
+            JSONObject jsonObject = new JSONObject(jsonResponse);
+            
+            // Acessa os valores do JSON
+            String nome = jsonObject.getString("nome");
+            int idade = jsonObject.getInt("idade");
+            
+            // Exibe os valores
+            System.out.println("Nome: " + nome);
+            System.out.println("Idade: " + idade);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
